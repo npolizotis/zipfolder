@@ -5,7 +5,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+	http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,40 +17,39 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
+	"log"
 	"os"
 	"path/filepath"
 
-
 	homedir "github.com/mitchellh/go-homedir"
+	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"log"
 )
 
 var cfgFile string
 
-// rootCmd represents the base command when called without any subcommands
+// rootCmd represents the base command when called without any subcommands.
 var rootCmd = &cobra.Command{
-	Args: cobra.ExactArgs(1),
+	Args:  cobra.ExactArgs(1),
 	Use:   "zipfolder",
 	Short: "Zip folder without root and dotfiles",
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
-	Run: func(cmd *cobra.Command, args []string) { 
-		dir:=args[0]
-		stat,err:=os.Stat(dir)
-		if err==nil {
+	Run: func(cmd *cobra.Command, args []string) {
+		dir := args[0]
+		stat, err := os.Stat(dir)
+		if err == nil {
 			if stat.IsDir() {
-				destination,err:=filepath.Abs(dir) 
-				if err!=nil {
-					log.Fatalf("Unable to resolve path for %s",dir)
+				destination, err := filepath.Abs(dir)
+				if err != nil {
+					log.Fatalf("Unable to resolve path for %s", dir)
 				}
-				zipname:=destination+".zip"
-				//log.Printf("dest:%s, zipname:%s",destination,zipname)
-				if err:=RecursiveZip(destination,zipname);err!=nil {
-					log.Fatalf("Zip failed:%v",err)
+				zipname := destination + ".zip"
+				// log.Printf("dest:%s, zipname:%s",destination,zipname)
+				if err := RecursiveZip(destination, zipname); err != nil {
+					log.Fatalf("Zip failed:%v", err)
 				}
-				log.Printf("Created zip %s \n",zipname)
+				log.Printf("Created zip %s \n", zipname)
 			} else {
 				log.Fatalf("Expecting a directory ")
 			}
@@ -59,11 +58,6 @@ var rootCmd = &cobra.Command{
 		}
 	},
 }
-
-
-
-
-
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
